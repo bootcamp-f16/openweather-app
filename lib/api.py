@@ -7,15 +7,12 @@ class API():
     def get_base_payload(self):
         return {
             'appid': self.api_key,
+            'units': 'imperial',
         }
 
-    def get_current_weather(self, zip=""):
-        if not zip.isdigit() and len(zip) != 5:
-            raise ValueError("5 digit zipcode is required")
-
+    def get_current_weather(self, location=""):
         payload = self.get_base_payload()
         url = "{}{}".format(self.base_url, "/weather")
-        payload["zip"] = "{},us".format(zip)
+        payload["q"] = "{},us".format(location)
         r = requests.get(url, params=payload)
-
         return r.json()
